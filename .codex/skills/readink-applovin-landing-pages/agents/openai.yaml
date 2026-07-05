@@ -1,0 +1,4 @@
+interface:
+  display_name: "Readink AppLovin Landing Pages"
+  short_description: "Generate Readink AppLovin novel landing pages."
+  default_prompt: "Use $readink-applovin-landing-pages to generate 10 Readink/AppLovin novel landing pages from a book ID, title, and free chapters."
