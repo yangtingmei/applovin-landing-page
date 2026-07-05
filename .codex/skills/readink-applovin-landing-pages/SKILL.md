@@ -90,8 +90,10 @@ The JSON config must be an array:
 ## Non-Negotiables
 
 - Keep the Readink template structure, CSS, layout, CTA placement, `go()` behavior, MRAID/AppLovin tracking, header/footer, and end-card mechanics.
+- Preserve the real Readink PNG header icon and `.ahead .lg img` styling; never replace it with a text, gradient, or placeholder app icon.
 - Use the formal filename format from `references/workflow.md`.
 - Always create or update `current-latest.html`.
 - Keep UI language consistent with chapter language.
 - Preserve free chapters as supplied unless the user explicitly asks for edits.
+- Keep the embedded template sanitized; do not store full sample chapters, old-book body text, old-book marketing copy, or old-book hero images in the script template.
 - Run QA before final delivery and report any checks that could not be completed.

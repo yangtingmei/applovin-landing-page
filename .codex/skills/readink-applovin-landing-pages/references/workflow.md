@@ -19,6 +19,8 @@ Do not require the user to provide target language, template path, hero image as
 ## Template Preservation
 
 - Keep the original Readink page structure, layout, CSS, animation, header, footer, CTA placement, and tracking script.
+- Preserve the real embedded Readink PNG header icon in `<header class="ahead"><div class="lg"><img src="data:image/png;base64,` and the `.ahead .lg img` CSS. Do not use text, gradient, or placeholder icons such as `.appicon` or `<div class="appicon">R</div>`.
+- Keep the embedded template sanitized: the reader area must contain only a minimal placeholder such as `Chapter 1` and `Story begins here.`, and hero/marketing/end-card fields must use neutral placeholders. Do not embed full sample chapters, old-book body text, old-book marketing copy, or old-book hero images in the script.
 - Replace only book-specific fields, chapter content, language copy, deeplink, title, hook, genre tags, hero image, and end card.
 - Keep all CTA elements clickable through the existing `go()` function.
 - Preserve MRAID/AppLovin tracking events: `LOADED`, `DISPLAYED`, `CTA_CLICKED`, and `ENDCARD_SHOWN`.
@@ -191,6 +193,8 @@ Before final delivery, verify:
 - Free chapter text is preserved unless the user requested edits.
 - Header CTA, bottom CTA, reading cue, trend text, end card, and footer hint are localized.
 - End card exists and has a CTA.
+- Header uses the real embedded Readink PNG icon, not `.appicon`, text, gradient, or another placeholder icon.
+- Template includes `<script src="mraid.js"></script>` and `<body onload="onAssetLoad()">`.
 - HTML closes with `</body>` and `</html>`.
 - `READINK_DEEPLINK` is valid and URL-encoded.
 - Embedded base64 is ignored or stripped during residue scans.
