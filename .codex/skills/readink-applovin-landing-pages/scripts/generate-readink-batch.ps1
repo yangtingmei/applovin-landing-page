@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory = $true)][string]$BookId,
     [Parameter(Mandatory = $true)][string]$BookName,
     [Parameter(Mandatory = $true)][string]$ChapterPath,
-    [Parameter(Mandatory = $true)][string]$TemplatePath,
+    [string]$TemplatePath = "",
     [Parameter(Mandatory = $true)][string]$CreativeConfigPath,
     [Parameter(Mandatory = $true)][string]$RootDir,
     [string]$DateStamp = (Get-Date -Format "yyyyMMdd"),
@@ -100,8 +100,21 @@ function New-ContactSheet {
 }
 
 if (-not (Test-Path -LiteralPath $ChapterPath)) { throw "Chapter file not found: $ChapterPath" }
-if (-not (Test-Path -LiteralPath $TemplatePath)) { throw "Template file not found: $TemplatePath" }
 if (-not (Test-Path -LiteralPath $CreativeConfigPath)) { throw "Creative config not found: $CreativeConfigPath" }
+
+if (-not $TemplatePath) {
+    $downloadDir = Join-Path $env:USERPROFILE "Downloads"
+    $templateMatch = Get-ChildItem -LiteralPath $downloadDir -Filter "readink_reader_67dba857d639085ca69f952d_chapterOrder-1_book-Jeu-du-Destin_name-*.html" -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending |
+        Select-Object -First 1
+    if ($templateMatch) {
+        $TemplatePath = $templateMatch.FullName
+    }
+}
+
+if (-not $TemplatePath -or -not (Test-Path -LiteralPath $TemplatePath)) {
+    throw "Standard Readink template was not found. Ask the user to send the standard template again, or pass -TemplatePath explicitly."
+}
 
 New-Item -ItemType Directory -Force -Path $RootDir, $htmlDir, $assetDir, $qaDir | Out-Null
 

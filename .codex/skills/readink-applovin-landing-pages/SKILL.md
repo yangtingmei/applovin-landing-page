@@ -13,28 +13,33 @@ Use this skill to produce Readink-style AppLovin novel landing pages from a book
    - Book ID.
    - Book title exactly as supplied by the user.
    - Free chapter text file or pasted text.
-   - Target language, inferred from the chapters unless the user says otherwise.
-   - Number of landing pages, usually 1 or 10.
-   - Standard Readink HTML template path.
 
-2. Read `references/workflow.md` before implementing a batch or changing rules. It contains the durable creative, naming, content, QA, and delivery rules.
+   Do not ask the user for target language, template path, or hero assets as required inputs. Infer and resolve those automatically.
 
-3. Analyze the free chapters before writing creative:
+2. Resolve defaults:
+   - Infer the page UI and marketing-copy language from the free chapter language, and keep the landing page consistent with it.
+   - Use the fixed standard Readink template first provided by the user. Look for it locally using the template lookup rule in `references/workflow.md`. If it cannot be found, ask the user to send the standard template again.
+   - Generate hero images from the free chapters and creative angles by default. Use supplied hero assets only when the user provides them.
+   - Default to 10 LPs when the user asks for a batch; otherwise generate the requested count.
+
+3. Read `references/workflow.md` before implementing a batch or changing rules. It contains the durable creative, naming, content, QA, and delivery rules.
+
+4. Analyze the free chapters before writing creative:
    - Identify the heroine, power dynamic, strongest humiliation/rescue/reveal/cliffhanger beats.
    - Pick one primary conversion angle per LP.
    - Keep hero image, hook, genre tags, end card, and reader comment aligned to the same angle.
 
-4. Generate project-bound hero images when visual assets are needed:
+5. Generate project-bound hero images:
    - Use the `imagegen` skill if available.
    - Save/copy the final images into the delivery folder under `assets/`.
    - Use cinematic, mobile-readable scenes. Avoid visible explicit sexual imagery, nudity, or underage sexualization in marketing images.
 
-5. Generate the landing pages:
+6. Generate the landing pages:
    - Prefer the bundled script `scripts/generate-readink-batch.ps1` when creating batches.
    - Provide a creative JSON config with one object per LP.
    - Preserve the supplied chapter text by default. Do not rewrite, abridge, delete, or soften chapter body text unless the user explicitly asks.
 
-6. Deliver a complete package:
+7. Deliver a complete package:
    - `current-latest.html`
    - `html/` with formal LP filenames.
    - `assets/` with final hero images.
@@ -47,10 +52,11 @@ Use this skill to produce Readink-style AppLovin novel landing pages from a book
 
 Use `scripts/generate-readink-batch.ps1` after preparing:
 
-- A standard Readink template HTML.
 - A free chapter text file.
 - A creative config JSON file.
-- Hero assets whose filenames match each creative config item.
+- Generated or supplied hero assets in the output `assets/` folder whose filenames match each creative config item.
+
+The script can auto-find the fixed standard Readink template in the user's Downloads folder. Pass `-TemplatePath` only when using a different template or when auto-lookup fails.
 
 Example command:
 
@@ -59,7 +65,6 @@ powershell -ExecutionPolicy Bypass -File .codex\skills\readink-applovin-landing-
   -BookId "6960a0b216318efdff52cd77" `
   -BookName "Mated to Her Alpha Instructor" `
   -ChapterPath "C:\path\to\chapters.txt" `
-  -TemplatePath "C:\path\to\readink_template.html" `
   -CreativeConfigPath "C:\path\to\creatives.json" `
   -RootDir "C:\path\to\output_folder"
 ```

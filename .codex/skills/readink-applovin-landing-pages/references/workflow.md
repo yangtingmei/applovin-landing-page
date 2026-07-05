@@ -1,14 +1,22 @@
 # Readink AppLovin Landing Page Workflow
 
-## Required Inputs
+## User Required Inputs
 
 - Book ID.
 - Book title exactly as supplied by the user.
 - Free chapter text.
-- Target language for page UI and marketing copy.
-- Standard Readink HTML template.
-- Hero image assets, or permission/context to generate them.
-- Optional: number of LPs, author, rating/read count, CTA/deeplink name parameter.
+
+Do not require the user to provide target language, template path, hero image assets, or image-generation permission/background as inputs.
+
+## Agent-Resolved Defaults
+
+- Infer the target language for page UI and marketing copy from the supplied free chapter language. Keep all UI and marketing copy consistent with the chapter language.
+- Use the fixed standard Readink template first provided by the user:
+  `readink_reader_67dba857d639085ca69f952d_chapterOrder-1_book-Jeu-du-Destin_name-*.html`
+- Look for that template in the user's Downloads folder first. If it cannot be found, ask the user to send the standard template again.
+- Generate hero images from the chapter analysis and the chosen creative angles by default. If the user supplies hero assets, use them; otherwise create new project-bound images.
+- Default to 10 LPs for batch requests. If the user asks for a single page or a different count, follow that count.
+- Optional user-supplied overrides can include author, rating/read count, CTA/deeplink name parameter, specific creative angles, or supplied images.
 
 ## Template Preservation
 
