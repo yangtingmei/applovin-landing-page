@@ -18,7 +18,7 @@ Use this skill to produce Readink-style AppLovin novel landing pages from a book
 
 2. Resolve defaults:
    - Infer the page UI and marketing-copy language from the free chapter language, and keep the landing page consistent with it.
-   - Use the fixed standard Readink template first provided by the user. Look for it locally using the template lookup rule in `references/workflow.md`. If it cannot be found, ask the user to send the standard template again.
+   - Use the embedded standard Readink template inside `scripts/generate-readink-batch.ps1`, derived from the first template the user provided. Do not read the original `readink_reader_...html` file on normal runs.
    - Generate hero images from the free chapters and creative angles by default. Use supplied hero assets only when the user provides them.
    - Default to 10 LPs when the user asks for a batch; otherwise generate the requested count.
 
@@ -56,7 +56,7 @@ Use `scripts/generate-readink-batch.ps1` after preparing:
 - A creative config JSON file.
 - Generated or supplied hero assets in the output `assets/` folder whose filenames match each creative config item.
 
-The script can auto-find the fixed standard Readink template in the user's Downloads folder. Pass `-TemplatePath` only when using a different template or when auto-lookup fails.
+The script uses its embedded standard Readink template by default. Pass `-TemplatePath` only as a legacy/debug override when intentionally refreshing or comparing against an external template.
 
 Example command:
 
